@@ -11,7 +11,7 @@ return button;
 }
 
 export function projectNameForm(){
-const form=document.createElement("form")
+const form=document.createElement("form");
    form.id="projectNameForm";
    const label=document.createElement("label");
    label.textContent="Enter project name";
@@ -22,6 +22,8 @@ const form=document.createElement("form")
    input.name="name";
 const submitBtn=document.createElement("button");
 submitBtn.type="submit";
+submitBtn.style.display="block";
+
 submitBtn.textContent="submit";
 form.append(label,input,submitBtn);
 return form;

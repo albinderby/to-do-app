@@ -15,6 +15,10 @@ main{
   gap:5px;
   align-items: center;
 }
+  #projectNameForm{
+    display: flex;
+    flex-direction: column;
+  }
 #right-side{
   flex-basis: 750px;
 }

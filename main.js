@@ -1,14 +1,12 @@
 import { appendNewProjectOnLefSideBar,projectNameForm } from "./dom.js";
-//temporly append the project name recieving form on the body only for developing time
-const body=document.querySelector("body");
-
-
 
 function addingNewProject(){
-    const newProjectBtn=document.getElementById("newProjectBtn")
+    const newProjectBtn=document.getElementById("newProjectBtn");
+    // const newProjectWrapper=document.getElementById("newProjectWrapper");
+
     newProjectBtn.addEventListener("click",()=>{
         const form=projectNameForm();
-        body.appendChild(form);
+        newProjectBtn.after(form);
         form.addEventListener("submit",(event)=>{
             event.preventDefault();
             const wrapper = document.getElementById("newProjectWrapper");
