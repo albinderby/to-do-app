@@ -1,8 +1,11 @@
 import { appendNewProjectOnLefSideBar,createNewProjectButton,projectNameForm,NewToDoForm,} from "./dom.js";
-import {openDatabase,saveFormData,getDatabaseVersion,checkObjectStoreExist}from "./indexedDB.js";
+import {STORE_NAMES,saveFormData,retrieveProjectId}from "./indexedDB.js";
 let currentProject="Default";
 
-function addingNewProject(){
+async function addingNewProject(){
+  if(!await retrieveProjectId(currentProject)){
+    await saveFormData({name:currentProject},STORE_NAMES.PROJECT);
+  }
     const newProjectBtn=document.getElementById("newProjectBtn"); 
     newProjectBtn.addEventListener("click",()=>{
         const form=projectNameForm();
@@ -12,14 +15,8 @@ function addingNewProject(){
             const formData=new FormData(form);
             const newprojectName=formData.get("name");    
             currentProject=newprojectName;
-            let DB_VERSION=await getDatabaseVersion("TO-DO DATABASE")
-            console.log(DB_VERSION);
-            if(!await checkObjectStoreExist(currentProject)){
-            ++DB_VERSION;
-            }
-    const dbconnection= await openDatabase(currentProject,DB_VERSION);
-        dbconnection.close();        
             const  newProjectBtn=createNewProjectButton(currentProject)
+          await  saveFormData({name:newprojectName},STORE_NAMES.PROJECT);
             newProjectBtn.addEventListener("click",(event)=>{
             currentProject=newProjectBtn.textContent;
             })
@@ -32,12 +29,12 @@ function addingNewProject(){
 }
 addingNewProject();
 
-function addingNewToDo(){
+ function addingNewToDo(){
   const newTOdoBtn=document.getElementById("newToDoBtn");
   newTOdoBtn.addEventListener("click",()=>{
     const todoForm=NewToDoForm()
     newTOdoBtn.after(todoForm);
-    todoForm.addEventListener("submit", (event)=>{
+    todoForm.addEventListener("submit", async(event)=>{
       event.preventDefault();
       const formData=new FormData(todoForm);
       // formData.getAll(name);
@@ -45,7 +42,8 @@ function addingNewToDo(){
       for(const [key,value] of formData.entries()){
         data[key]=value;
       }
-  saveFormData(data,currentProject);
+     data.projectId= await retrieveProjectId(currentProject);
+  saveFormData(data,STORE_NAMES.TO_DO);
     })
     })
 }
