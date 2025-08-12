@@ -1,6 +1,15 @@
 import { appendNewProjectOnLefSideBar,createNewProjectButton,projectNameForm,NewToDoForm,} from "./dom.js";
 import {STORE_NAMES,saveFormData,retrieveProjectId}from "./indexedDB.js";
+import{}from "./display.js";
 let currentProject="Default";
+
+function setUpDefaultProjectListener(){
+  document.getElementById("default-Project")
+  .addEventListener("click",()=>{
+    currentProject="Default";
+  });
+}
+setUpDefaultProjectListener();
 
 async function addingNewProject(){
   if(!await retrieveProjectId(currentProject)){

@@ -82,3 +82,24 @@ export async function retrieveProjectId(currentProject){
 
     })
 }
+
+
+export function retrieveAllProjectName(){
+return new Promise(async(resolve,reject)=>{
+    if(!db){
+        db=await openDatabase();
+    }
+    const transaction=db.transaction([STORE_NAMES.PROJECT],"readonly");
+    const store=transaction.objectStore(STORE_NAMES.PROJECT);
+    const request=store.getAll();
+
+    request.addEventListener("success",(event)=>{
+        console.log("all project name got successfully!");
+        resolve(event.target.result);
+    })
+    request.addEventListener("error",(event)=>{
+        console.log("can't get projecnames");
+        reject(new Error(event.target.error));})
+})
+  
+}
