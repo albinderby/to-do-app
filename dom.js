@@ -2,7 +2,7 @@ const leftSideBar=document.getElementById("left-sideBar");
 
 
 
-export function createNewProjectButton(projectName){
+export function createProjectButton(projectName){
 const button=document.createElement("button");
 button.id=projectName;
 button.classList.add("button");;
@@ -29,7 +29,7 @@ form.append(label,input,submitBtn);
 return form;
 }
 
-export function appendNewProjectOnLefSideBar(newProjectBtn){
+export function appendNewProjectOnLefSideBar(newProjectBtn){ 
     leftSideBar.appendChild(newProjectBtn)
 }
 
@@ -66,4 +66,10 @@ export function NewToDoForm(){
     submit.textContent="Submit";
     form.append(title,description,dueDate,submit);
     return form;
+}
+
+export function createDiv(param){
+    const div=document.createElement("div");
+    div.textContent=param;
+    return div;
 }

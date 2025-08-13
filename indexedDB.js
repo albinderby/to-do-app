@@ -60,20 +60,21 @@ export function saveFormData(data,STORE_NAME){
 
 
 export async function retrieveProjectId(currentProject){
-    console.log(currentProject);
     if(!db){
         db=await openDatabase();
     }
     const transaction=db.transaction([STORE_NAMES.PROJECT],"readonly");
     const store=transaction.objectStore(STORE_NAMES.PROJECT);
     const index=store.index("nameIndex");
+    console.log(index);
     return new Promise((resolve,reject)=>{
         const request=index.get(currentProject);
         
             request.onsuccess=(event)=>{
                 console.log(event);
                 const projectObject=event.target.result;
-                resolve(projectObject.id);
+     
+                    resolve(projectObject?.id);
             }
             request.onerror=(event)=>{
                 console.error("cant get the project id");
@@ -105,8 +106,11 @@ return new Promise(async(resolve,reject)=>{
 }
 
 
-function retrieveTodoWithProjectId(){
-
-
-
+export async function fetchTodoFromProject(projectName){
+    const projectId=await retrieveProjectId(projectName);
+    console.log(projectId);
+    const toDoList=await retrieveAll(STORE_NAMES.TO_DO);
+    const fileteredList=toDoList.filter((todo)=>todo.projectId==projectId);
+    console.log(fileteredList);
+    return fileteredList;
 }
