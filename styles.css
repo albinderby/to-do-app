@@ -26,3 +26,7 @@ main{
 .button{
   width: 150px;
 }
+
+.list{
+  border:1px solid black;
+}

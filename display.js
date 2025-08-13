@@ -21,7 +21,9 @@ export async function showTodoList(currentProject) {
     const rightSide=document.getElementById("right-side")
        const toDoList=await fetchTodoFromProject(currentProject);
         for(let i=0;i<toDoList.length;i++){
-            rightSide.appendChild(createDiv(toDoList[i].title));       
+            const div=createDiv(toDoList[i].title);
+            div.classList.add("list");
+            rightSide.appendChild(div);       
         }
 
 }
