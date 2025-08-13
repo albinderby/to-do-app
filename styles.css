@@ -23,10 +23,42 @@ main{
   flex-basis: 750px;
 }
 
-.button{
-  width: 150px;
+.button {
+  display: block;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 8px;
+  background-color: #fafafa;      /* same light bg as todo items */
+  color: #333;                    /* dark text for readability */
+  border: 1px solid #ccc;         /* same border as todo items */
+  border-radius: 6px;
+  text-align: left;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
 }
 
-.list{
-  border:1px solid black;
+.button:hover {
+  background-color: #f0f0f0;      /* same hover as todo items */
+}
+
+.button.active {
+  background-color: #e0e0e0;      /* slightly darker when selected */
+}
+
+
+
+.list {
+  border: 1px solid #ccc;       /* light border */
+  padding: 10px 15px;           /* space inside the box */
+  margin-bottom: 10px;          /* space between items */
+  border-radius: 6px;           /* rounded corners */
+  background-color: #fafafa;    /* light background */
+  font-size: 16px;              /* readable text size */
+  cursor: pointer;              /* makes it feel clickable */
+  transition: background-color 0.2s ease;
+}
+
+.list:hover {
+  background-color: #f0f0f0;    /* subtle hover effect */
 }
