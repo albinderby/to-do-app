@@ -29,7 +29,7 @@ form.append(label,input,submitBtn);
 return form;
 }
 
-export function appendNewProjectOnLefSideBar(newProjectBtn){ 
+export function appendNewProjectOnLefSideBar(newProjectBtn){
     leftSideBar.appendChild(newProjectBtn)
 }
 
@@ -72,4 +72,35 @@ export function createDiv(param){
     const div=document.createElement("div");
     div.textContent=param;
     return div;
+}
+
+//gpt code
+export function createTodo(todo) {
+    // Create container for the todo
+    const todoContainer = document.createElement("div");
+    todoContainer.className = "todo-item";
+
+    // Title
+    const titleHeading = document.createElement("h4");
+    titleHeading.textContent = todo.title || "Untitled";
+
+    // Description
+    const description = document.createElement("p");
+    description.textContent = todo.description || "";
+
+    // Due Date
+    const dueDate = document.createElement("small");
+    dueDate.textContent = todo.dueDate ? `Due: ${todo.dueDate}` : "";
+
+    // Priority
+    const priority = document.createElement("span");
+    priority.textContent = todo.priority ? `Priority: ${todo.priority}` : "";
+
+    // Append everything
+    todoContainer.appendChild(titleHeading);
+    todoContainer.appendChild(description);
+    todoContainer.appendChild(dueDate);
+    todoContainer.appendChild(priority);
+
+    return todoContainer; // return so caller can append it to DOM
 }
