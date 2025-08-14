@@ -114,3 +114,22 @@ export async function fetchTodoFromProject(projectName){
     console.log(fileteredList);
     return fileteredList;
 }
+
+export async function retriveSpecificTodo(listNo){
+    if(!db){
+        db=await openDatabase();
+    }
+    const transaction=db.transaction([STORE_NAMES.TO_DO],"readonly");
+    const store=transaction.objectStore(STORE_NAMES.TO_DO);
+    const request=store.get(listNo);
+    return new Promise((resolve,reject)=>{
+        request.onsuccess=(event)=>{
+            console.log("on succes working line 127");
+            resolve(event.target?.result)
+        }
+        request.onerror=(event)=>{
+            console.error(event.error);
+            reject(event.error);
+        }
+    })
+}
