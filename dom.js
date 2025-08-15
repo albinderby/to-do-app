@@ -1,3 +1,6 @@
+import { showTodoList } from "./display.js";
+import { currentProject } from "./main.js";
+
 const leftSideBar=document.getElementById("left-sideBar");
 
 
@@ -108,5 +111,6 @@ export function createTodo(todo) {
     backButton.id="back-button";
     backButton.textContent="BACK"
     todoContainer.appendChild(backButton)
+    backButton.addEventListener("click",()=>showTodoList(currentProject.name))
     return todoContainer; // return so caller can append it to DOM
 }

@@ -51,6 +51,7 @@ addingNewProject();
     newTOdoBtn.after(todoForm);
     todoForm.addEventListener("submit", async(event)=>{
       event.preventDefault();
+      todoForm.remove();
       const formData=new FormData(todoForm);
       // formData.getAll(name);
       let data={};

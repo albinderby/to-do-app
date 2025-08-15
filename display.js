@@ -18,7 +18,13 @@ export async function showProjectButton(){
 showProjectButton();
 
 export async function showTodoList(currentProject) {
-    const rightSide=document.getElementById("right-side")
+    const rightSide=document.getElementById("right-side");
+    rightSide.innerHTML=""
+    const newToDoBtn=document.createElement("button");
+    newToDoBtn.textContent="create New To-do";
+    newToDoBtn.id="newToDoBtn";
+    newToDoBtn.type="button";
+    rightSide.appendChild(newToDoBtn);
        const toDoList=await fetchTodoFromProject(currentProject);
         for(let i=0;i<toDoList.length;i++){
             const div=createDiv(toDoList[i].title);
@@ -40,5 +46,7 @@ export async function showTodoList(currentProject) {
 
 function displayTodo(todo){
     const rightSide=document.getElementById("right-side");
+    rightSide.innerHTML="";
     rightSide.append(createTodo(todo));
 }
+
