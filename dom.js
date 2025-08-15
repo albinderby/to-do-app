@@ -64,10 +64,32 @@ export function NewToDoForm(){
     dueDate.id="dueDateId";
     dueDate.name="dueDate";
     
+    const prioritySelect = document.createElement("select");
+    prioritySelect.id = "priorityId";
+    prioritySelect.name = "priority";
+
+    const highOption = document.createElement("option");
+    highOption.value = "High";
+    highOption.textContent = "High";
+    highOption.selected = true; // Set High as the default
+    
+    const mediumOption = document.createElement("option");
+    mediumOption.value = "Medium";
+    mediumOption.textContent = "Medium";
+    
+    const lowOption = document.createElement("option");
+    lowOption.value = "Low";
+    lowOption.textContent = "Low";
+
+    // Append options to the select element
+    prioritySelect.appendChild(highOption);
+    prioritySelect.appendChild(mediumOption);
+    prioritySelect.appendChild(lowOption);
+
     const submit=document.createElement("button");
     submit.type="submit";
     submit.textContent="Submit";
-    form.append(title,description,dueDate,submit);
+    form.append(title,description,dueDate,prioritySelect,submit);
     return form;
 }
 
