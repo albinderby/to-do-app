@@ -89,7 +89,11 @@ export function NewToDoForm(){
     const submit=document.createElement("button");
     submit.type="submit";
     submit.textContent="Submit";
-    form.append(title,description,dueDate,prioritySelect,submit);
+    form.append(titleLabel,title,
+        descriptionLabel,description,
+        dueDateLabel,dueDate,
+        prioritySelect,
+        submit);
     return form;
 }
 
