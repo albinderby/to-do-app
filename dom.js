@@ -102,5 +102,11 @@ export function createTodo(todo) {
     todoContainer.appendChild(dueDate);
     todoContainer.appendChild(priority);
 
+    //creating a back button for going back to the first page.
+    const backButton=document.createElement("button");
+    backButton.type="button";
+    backButton.id="back-button";
+    backButton.textContent="BACK"
+    todoContainer.appendChild(backButton)
     return todoContainer; // return so caller can append it to DOM
 }
