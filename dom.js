@@ -39,6 +39,7 @@ export function appendNewProjectOnLefSideBar(newProjectBtn){
 
 export function NewToDoForm(){
     const form=document.createElement("form");
+    form.classList.add('todo-form');
     const titleLabel=document.createElement("label");
     titleLabel.textContent="title";
     titleLabel.htmlFor="titleId";
