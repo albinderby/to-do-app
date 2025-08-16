@@ -133,3 +133,23 @@ export async function retriveSpecificTodo(listNo){
         }
     })
 }
+
+export async function deleteTodo(list_no) {
+    if(!db){
+        db=await openDatabase();
+    }
+    const transaction=db.transaction([STORE_NAMES.TO_DO],"readwrite");
+    const store=transaction.objectStore(STORE_NAMES.TO_DO);
+    const request=store.delete(list_no);
+    return new Promise((resolve,reject)=>{
+        request.onsuccess=()=>{
+            console.log("todo deleted ");
+            resolve();
+        }
+        request.onerror=(event)=>{
+            console.error(event.error);
+            reject();
+        }
+
+    })
+}

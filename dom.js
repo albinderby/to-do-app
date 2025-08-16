@@ -1,6 +1,6 @@
 import { showTodoList } from "./display.js";
 import { currentProject } from "./main.js";
-
+import { deleteTodo } from "./indexedDB.js";
 const leftSideBar=document.getElementById("left-sideBar");
 
 
@@ -138,6 +138,18 @@ export function createTodo(todo) {
     backButton.id="back-button";
     backButton.textContent="BACK"
     todoContainer.appendChild(backButton)
+
+    //creating a delete button .
+    const deleteButton=document.createElement("button");
+    deleteButton.type="button";
+    deleteButton.id="delete-button";
+    deleteButton.textContent="delete";
+    todoContainer.appendChild(deleteButton);
+
     backButton.addEventListener("click",()=>showTodoList(currentProject.name))
+    deleteButton.addEventListener("click",()=>{
+        backButton.click();
+        deleteTodo(todo.list_no);
+    })
     return todoContainer; // return so caller can append it to DOM
 }
