@@ -1,6 +1,6 @@
 import { showTodoList } from "./display.js";
 import { currentProject } from "./main.js";
-import { deleteTodo } from "./indexedDB.js";
+import { deleteTodo, editTodo, saveFormData, STORE_NAMES } from "./indexedDB.js";
 const leftSideBar=document.getElementById("left-sideBar");
 
 
@@ -105,7 +105,7 @@ export function createDiv(param){
 }
 
 //gpt code
-export function createTodo(todo) {
+export  function createTodo(todo) {
     // Create container for the todo
     const todoContainer = document.createElement("div");
     todoContainer.className = "todo-item";
@@ -113,15 +113,15 @@ export function createTodo(todo) {
     // Title
     const titleHeading = document.createElement("h4");
     titleHeading.textContent = todo.title || "Untitled";
-
+    titleHeading.contentEditable=false;
     // Description
     const description = document.createElement("p");
     description.textContent = todo.description || "";
-
+    description.contentEditable=false;
     // Due Date
-    const dueDate = document.createElement("small");
-    dueDate.textContent = todo.dueDate ? `Due: ${todo.dueDate}` : "";
-
+    const dueDate = document.createElement("input");
+    dueDate.type="date";
+    dueDate.value = todo.dueDate ? todo.dueDate : "";
     // Priority
     const priority = document.createElement("span");
     priority.textContent = todo.priority ? `Priority: ${todo.priority}` : "";
@@ -146,10 +146,47 @@ export function createTodo(todo) {
     deleteButton.textContent="delete";
     todoContainer.appendChild(deleteButton);
 
+    //edit button
+    const editButton=document.createElement("button");
+    editButton.type="button";
+    editButton.id="edit-button";
+    editButton.textContent="edit";
+    todoContainer.appendChild(editButton);
+
+
     backButton.addEventListener("click",()=>showTodoList(currentProject.name))
     deleteButton.addEventListener("click",()=>{
         backButton.click();
         deleteTodo(todo.list_no);
     })
+    editButton.addEventListener("click",()=>{
+       
+        titleHeading.setAttribute("contentEditable",true);
+        description.setAttribute("contentEditable",true)
+        saveButton.style.display="block"        
+    })
+    const saveButton=document.createElement("button");
+    saveButton.textContent="save";
+    saveButton.style.display="none";
+    saveButton.addEventListener("click",async()=>{
+        saveButton.style.display="none";
+        titleHeading.setAttribute("contentEditable",false);
+    description.setAttribute("contentEditable",false);
+
+    function helperfunction(){
+        const object={};
+        object.pro
+        object.title=titleHeading.textContent ;
+        object.description=description.textContent;
+        object.dueDate=dueDate.value;
+        object.priority=todo.priority||"low";
+        object.projectId=todo.projectId;
+        object.list_no=todo.list_no;
+        return object;
+    }
+   await editTodo(helperfunction(),STORE_NAMES.TO_DO);
+    })
+    todoContainer.appendChild(saveButton);
+
     return todoContainer; // return so caller can append it to DOM
 }
