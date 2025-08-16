@@ -24,7 +24,7 @@ export async function showTodoList(currentProject) {
     newToDoBtn.textContent="create New To-do";
     newToDoBtn.id="newToDoBtn";
     newToDoBtn.type="button";
-    newToDoBtn.addEventListener("click",()=>eventHandlerForNewTodoBtn())
+    newToDoBtn.addEventListener("click",()=>eventHandlerForNewTodoBtn(newToDoBtn))
     rightSide.appendChild(newToDoBtn);
        const toDoList=await fetchTodoFromProject(currentProject);
         for(let i=0;i<toDoList.length;i++){
@@ -51,7 +51,7 @@ function displayTodo(todo){
     rightSide.append(createTodo(todo));
 }
 
-function eventHandlerForNewTodoBtn(){
+function eventHandlerForNewTodoBtn(newTOdoBtn){
   const todoForm=NewToDoForm()
   newTOdoBtn.after(todoForm);
   todoForm.addEventListener("submit", async(event)=>{

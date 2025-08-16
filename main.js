@@ -46,12 +46,12 @@ addingNewProject();
 
  function addingNewToDo(){
   const newTOdoBtn=document.getElementById("newToDoBtn");
-  newTOdoBtn.addEventListener("click",()=>eventHandlerForNewTodoBtn())
+  newTOdoBtn.addEventListener("click",()=>eventHandlerForNewTodoBtn(newTOdoBtn))
 }
 addingNewToDo();
 
 
-function eventHandlerForNewTodoBtn(){
+function eventHandlerForNewTodoBtn(newTOdoBtn){
   const todoForm=NewToDoForm()
   newTOdoBtn.after(todoForm);
   todoForm.addEventListener("submit", async(event)=>{
