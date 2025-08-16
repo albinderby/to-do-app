@@ -58,6 +58,25 @@ export function saveFormData(data,STORE_NAME){
     
 }
 
+export function editTodo(data,STORE_NAME){
+    return new Promise(async (resolve,reject)=>{
+    if(!db){
+        db= await openDatabase();
+    }
+    const transaction=db.transaction([STORE_NAME],'readwrite');
+    const store=transaction.objectStore(STORE_NAME);
+    const request=store.put(data)
+
+    request.onsuccess=()=>{
+        console.log("details edited in database succesfully");
+       resolve('success');
+    }
+    request.onerror=(event)=>{
+        console.error("error editing formdata", event.target.error);
+        reject( new Error(event.error));
+    }});
+    
+}
 
 export async function retrieveProjectId(currentProject){
     if(!db){
