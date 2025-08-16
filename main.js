@@ -46,21 +46,24 @@ addingNewProject();
 
  function addingNewToDo(){
   const newTOdoBtn=document.getElementById("newToDoBtn");
-  newTOdoBtn.addEventListener("click",()=>{
-    const todoForm=NewToDoForm()
-    newTOdoBtn.after(todoForm);
-    todoForm.addEventListener("submit", async(event)=>{
-      event.preventDefault();
-      todoForm.remove();
-      const formData=new FormData(todoForm);
-      // formData.getAll(name);
-      let data={};
-      for(const [key,value] of formData.entries()){
-        data[key]=value;
-      }
-     data.projectId= await retrieveProjectId(currentProject.name);
-  saveFormData(data,STORE_NAMES.TO_DO);
-    })
-    })
+  newTOdoBtn.addEventListener("click",()=>eventHandlerForNewTodoBtn())
 }
 addingNewToDo();
+
+
+function eventHandlerForNewTodoBtn(){
+  const todoForm=NewToDoForm()
+  newTOdoBtn.after(todoForm);
+  todoForm.addEventListener("submit", async(event)=>{
+    event.preventDefault();
+    todoForm.remove();
+    const formData=new FormData(todoForm);
+    // formData.getAll(name);
+    let data={};
+    for(const [key,value] of formData.entries()){
+      data[key]=value;
+    }
+   data.projectId= await retrieveProjectId(currentProject.name);
+saveFormData(data,STORE_NAMES.TO_DO);
+  })
+  }

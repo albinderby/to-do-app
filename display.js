@@ -1,6 +1,6 @@
 // databaseilnn data retrive cheyannam ennit athh button ayitt left project baril show cheyannam
-import { fetchTodoFromProject, retrieveAll, retriveSpecificTodo, STORE_NAMES } from "./indexedDB.js";
-import { createProjectButton,appendNewProjectOnLefSideBar, createDiv, createTodo } from "./dom.js";
+import { fetchTodoFromProject, retrieveAll, retriveSpecificTodo, STORE_NAMES,saveFormData } from "./indexedDB.js";
+import { createProjectButton,appendNewProjectOnLefSideBar, createDiv, createTodo,NewToDoForm } from "./dom.js";
 import { currentProject } from "./main.js";
 export async function showProjectButton(){
     const allProjcetNames=await retrieveAll(STORE_NAMES.PROJECT);
@@ -24,6 +24,7 @@ export async function showTodoList(currentProject) {
     newToDoBtn.textContent="create New To-do";
     newToDoBtn.id="newToDoBtn";
     newToDoBtn.type="button";
+    newToDoBtn.addEventListener("click",()=>eventHandlerForNewTodoBtn())
     rightSide.appendChild(newToDoBtn);
        const toDoList=await fetchTodoFromProject(currentProject);
         for(let i=0;i<toDoList.length;i++){
@@ -50,3 +51,18 @@ function displayTodo(todo){
     rightSide.append(createTodo(todo));
 }
 
+function eventHandlerForNewTodoBtn(){
+  const todoForm=NewToDoForm()
+  newTOdoBtn.after(todoForm);
+  todoForm.addEventListener("submit", async(event)=>{
+    event.preventDefault();
+    todoForm.remove();
+    const formData=new FormData(todoForm);
+    let data={};
+    for(const [key,value] of formData.entries()){
+      data[key]=value;
+    }
+   data.projectId= await retrieveProjectId(currentProject.name);
+saveFormData(data,STORE_NAMES.TO_DO);
+  })
+  }
