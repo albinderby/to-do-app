@@ -101,3 +101,47 @@ main{
   color: #777;
   margin-right: 10px;
 }
+
+/* to-do form styles */
+.todo-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background-color: #fafafa;
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  max-width: 300px;
+}
+
+.todo-form label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.todo-form input,
+.todo-form textarea,
+.todo-form select {
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.todo-form textarea {
+  resize: vertical;
+  min-height: 60px;
+}
+
+.todo-form button {
+  padding: 10px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.todo-form button:hover {
+  background-color: #45a049;
+}
