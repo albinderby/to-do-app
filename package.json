@@ -1,0 +1,15 @@
+{
+  "name": "to-do-app",
+  "version": "1.0.0",
+  "description": "this project is for learning purpose (odin Project)",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "3.6.2"
+  }
+}
