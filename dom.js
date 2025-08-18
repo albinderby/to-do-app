@@ -106,31 +106,57 @@ export function createDiv(param){
 
 //gpt code
 export  function createTodo(todo) {
-    // Create container for the todo
     const todoContainer = document.createElement("div");
     todoContainer.className = "todo-item";
 
-    // Title
-    const titleHeading = document.createElement("h4");
-    titleHeading.textContent = todo.title || "Untitled";
-    titleHeading.contentEditable=false;
-    // Description
-    const description = document.createElement("p");
-    description.textContent = todo.description || "";
-    description.contentEditable=false;
-    // Due Date
-    const dueDate = document.createElement("input");
-    dueDate.type="date";
-    dueDate.value = todo.dueDate ? todo.dueDate : "";
-    // Priority
-    const priority = document.createElement("span");
-    priority.textContent = todo.priority ? `Priority: ${todo.priority}` : "";
+    // Display elements (read-only mode)
+    const titleDisplay = document.createElement("h4");
+    titleDisplay.textContent = todo.title || "Untitled";
+    
+    const descriptionDisplay = document.createElement("p");
+    descriptionDisplay.textContent = todo.description || "";
+    
+    const dueDateDisplay = document.createElement("small");
+    dueDateDisplay.textContent = todo.dueDate ? `Due: ${todo.dueDate}` : "";
 
-    // Append everything
-    todoContainer.appendChild(titleHeading);
-    todoContainer.appendChild(description);
-    todoContainer.appendChild(dueDate);
-    todoContainer.appendChild(priority);
+    const priorityDisplay = document.createElement("span");
+    priorityDisplay.textContent = todo.priority ? `Priority: ${todo.priority}` : "";
+
+    // Editable elements (edit mode)
+    const titleInput = document.createElement("input");
+    titleInput.type = "text";
+    titleInput.value = todo.title || "";
+    titleInput.style.display = "none";
+    
+    const descriptionInput = document.createElement("textarea");
+    descriptionInput.value = todo.description || "";
+    descriptionInput.style.display = "none";
+    
+    const dueDateInput = document.createElement("input");
+    dueDateInput.type = "date";
+    dueDateInput.value = todo.dueDate || "";
+    dueDateInput.style.display = "none";
+
+    const prioritySelect = document.createElement("select");
+    ['High', 'Medium', 'Low'].forEach(level => {
+        const option = document.createElement("option");
+        option.value = level;
+        option.textContent = level;
+        if (level === todo.priority) option.selected = true;
+        prioritySelect.appendChild(option);
+    });
+    prioritySelect.style.display = "none";
+    
+
+    // Append everything to the container
+    todoContainer.appendChild(titleDisplay);
+    todoContainer.appendChild(titleInput);
+    todoContainer.appendChild(descriptionDisplay);
+    todoContainer.appendChild(descriptionInput);
+    todoContainer.appendChild(dueDateDisplay);
+    todoContainer.appendChild(dueDateInput);
+    todoContainer.appendChild(priorityDisplay);
+    todoContainer.appendChild(prioritySelect);
 
     //creating a back button for going back to the first page.
     const backButton=document.createElement("button");
@@ -153,40 +179,70 @@ export  function createTodo(todo) {
     editButton.textContent="edit";
     todoContainer.appendChild(editButton);
 
-
     backButton.addEventListener("click",()=>showTodoList(currentProject.name))
     deleteButton.addEventListener("click",()=>{
         backButton.click();
         deleteTodo(todo.list_no);
     })
-    editButton.addEventListener("click",()=>{
-       
-        titleHeading.setAttribute("contentEditable",true);
-        description.setAttribute("contentEditable",true)
-        saveButton.style.display="block"        
-    })
+      editButton.addEventListener("click", () => {
+        // Hide display elements and show editable elements
+        titleDisplay.style.display = "none";
+        descriptionDisplay.style.display = "none";
+        dueDateDisplay.style.display = "none";
+        priorityDisplay.style.display = "none";
+        
+        titleInput.style.display = "block";
+        descriptionInput.style.display = "block";
+        dueDateInput.style.display = "block";
+        prioritySelect.style.display = "block";
+        
+        // Hide edit/delete buttons, show save button
+        editButton.style.display = "none";
+        deleteButton.style.display = "none";
+        saveButton.style.display = "block";
+    });
     const saveButton=document.createElement("button");
     saveButton.textContent="save";
     saveButton.style.display="none";
-    saveButton.addEventListener("click",async()=>{
-        saveButton.style.display="none";
-        titleHeading.setAttribute("contentEditable",false);
-    description.setAttribute("contentEditable",false);
+      saveButton.addEventListener("click", async () => {
+        // Get the new data
+        const updatedData = {
+            title: titleInput.value.trim(),
+            description: descriptionInput.value.trim(),
+            dueDate: dueDateInput.value,
+            priority: prioritySelect.value,
+            projectId: todo.projectId,
+            list_no: todo.list_no
+        };
+        
+        await editTodo(updatedData, STORE_NAMES.TO_DO);
+        
+        // Update display elements with new data
+        titleDisplay.textContent = updatedData.title;
+        descriptionDisplay.textContent = updatedData.description;
+        dueDateDisplay.textContent = updatedData.dueDate ? `Due: ${updatedData.dueDate}` : "";
+        priorityDisplay.textContent = updatedData.priority ? `Priority: ${updatedData.priority}` : "";
 
-    function helperfunction(){
-        const object={};
-        object.pro
-        object.title=titleHeading.textContent ;
-        object.description=description.textContent;
-        object.dueDate=dueDate.value;
-        object.priority=todo.priority||"low";
-        object.projectId=todo.projectId;
-        object.list_no=todo.list_no;
-        return object;
-    }
-   await editTodo(helperfunction(),STORE_NAMES.TO_DO);
-    })
+        // Hide editable elements and show display elements
+        titleDisplay.style.display = "block";
+        descriptionDisplay.style.display = "block";
+        dueDateDisplay.style.display = "block";
+        priorityDisplay.style.display = "block";
+        
+        titleInput.style.display = "none";
+        descriptionInput.style.display = "none";
+        dueDateInput.style.display = "none";
+        prioritySelect.style.display = "none";
+
+        // Show edit/delete buttons, hide save button
+        editButton.style.display = "block";
+        deleteButton.style.display = "block";
+        saveButton.style.display = "none";
+    });
+
     todoContainer.appendChild(saveButton);
 
     return todoContainer; // return so caller can append it to DOM
 }
+
+
